@@ -77,6 +77,7 @@ class Think
             // 获取模板文件名
             $template = $this->parseTemplate($template);
         }
+        echo $template;die;
         // 模板不存在 抛出异常
         if (!is_file($template)) {
             throw new TemplateNotFoundException('template not exists:' . $template, $template);
