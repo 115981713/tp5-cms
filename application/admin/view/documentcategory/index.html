@@ -1,0 +1,324 @@
+{extend name="public/base" /} {block name="body"}
+<div class="layui-row layui-col-space15">
+	<div class="layui-col-md12">
+		<div class="layui-card">
+			<div class="layui-card-header">栏目分类管理</div>
+			<div class="layui-card-body">
+				<div class="layui-row zz-row-operate">
+					<div class="zz-operate-btn-group">
+						<a class="layui-btn" href="{:url('add_category?id=0')}" title="新增顶级分类">新增顶级分类</a>
+						<!--                        <a class="layui-btn layui-btn-danger zz-btn-delete-all" href="{:url('del_document')}">批量删除</a>-->
+					</div>
+				</div>
+				<div class="layui-form">
+					<table class="layui-table zz-tree-list" lay-skin="nob">
+						<thead>
+							<tr>
+								<th width="50%">名称</th>
+								<th width="10%">排序</th>
+								<th width="10%">可见性</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						{volist name="lists" id="item"}
+						<tr class="zz-tree-item" id="id-{$item['id']}" data-id="{$item['id']}" data-pid="{$item['pid']}">
+							<td>
+								{$item['line']}{$item['icon']}
+								<span class="title">
+									{$item['title']}（ID：{$item['id']}）
+								</span>
+								<a href="{:url('add_category')}?id={$item['id']}" title="添加子分类" class="layui-icon layui-icon-add-1"></a>
+							</td>
+							<td>
+								<form action="{:url('sort')}" method="post" class="layui-form zz-form-datalist" lay-filter="zz-form-{$item.id}">
+									<input type="hidden" value="{$item.id}" name="id">
+									<input type="text" name="sort" data-source="{$item.sort}" lay-verify="required|number" autocomplete="off" value="{$item.sort}" class="layui-input zz-table-input">
+								</form>
+							</td>
+							<td>
+								<input type="checkbox" lay-filter="zz-switch-display"  data-href="{:url('set_display?id='.$item['id'])}" name="display" value="{$item.display}" {$item.display==1? 'checked': ''} lay-skin="switch" lay-text="显示|隐藏">
+							</td>
+							<td>
+								<a class="layui-btn layui-btn-xs layui-btn-normal" href="{:url('edit_category?id='.$item['id'])}" title="编辑">编辑</a>
+								<a class="layui-btn layui-btn-xs" href="{:url('document/add_document?cid='.$item['id'])}" title="添加文章">添加文章</a>
+								<a class="layui-btn layui-btn-xs" href="{:url('document/index?category_id='.$item['id'])}" title="查看此分类下所有文章">查看所有文章</a>
+								<a class="layui-btn layui-btn-danger layui-btn-xs lbtn-del-category" href="{:url('del_category?ids='.$item['id'])}">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	layui.use('jquery', function() {
+		var listData = {$listJson};
+
+		var $ = layui.$;
+
+		//获取本地存储中的列表数据
+		var categoryTree = layui.data('categoryTree');
+
+		if(categoryTree.list) {
+			categoryTree = categoryTree.list;
+			//被编辑的并且修改上级分类的数据。
+			var editData=getCookie("{:config('cookie.prefix')}edit_docuemtn_category");
+			if(editData){
+				editData=JSON.parse(editData);
+				delItemFromParent(categoryTree,editData.opid,editData.id);
+				delCookie("{:config('cookie.prefix')}edit_docuemtn_category");
+			}
+			//新添加的数据
+			var addData =null;
+			
+			if(editData){
+				addData = editData;
+			}
+			else{
+				addData = getCookie("{:config('cookie.prefix')}add_docuemtn_category");
+				addData=JSON.parse(addData);
+				delCookie("{:config('cookie.prefix')}add_docuemtn_category");
+			}
+			
+			if(addData) {
+				if(addData.pid==0){
+					categoryTree.push(addData);
+					layui.data('categoryTree', {
+						key: 'list',
+						value: categoryTree
+					});
+					
+				}
+				else{
+					//如果发现有新添加的数据，我们添加到树形结构中。
+					var item = getTreeItemById(categoryTree, addData.pid);
+					if(item) {
+						//为防止重复数据，验证子列表中，是否存在该元素。
+						var childItem = getTreeItemById(item.child, addData.id);
+						if(!childItem) {
+							addData.icon = 0;
+							//当前父级，设置为展开展开状态
+							item.icon = 2;
+	
+							if(!item.child) {
+								item.child = [];
+							}
+							item.child.push(addData);
+							//设置当前父类下的子级为显示状态
+							for(var x in item.child) {
+								item.child[x].hide = 0;
+							}
+							layui.data('categoryTree', {
+								key: 'list',
+								value: categoryTree
+							});
+						}
+					}
+				}
+				
+			}
+			//新添加的数据
+			var addData = getCookie("{:config('cookie.prefix')}add_docuemtn_category");
+			
+			
+		} else {
+			categoryTree = listData;
+			layui.data('categoryTree', {
+				key: 'list',
+				value: categoryTree
+			});
+		}
+
+
+		showTree(categoryTree);
+		
+		//显示数据树
+		function showTree(lists) {
+			for(var x in lists) {
+				if(!lists[x].hide) {
+					setTreeItemHide(lists[x], 0);
+				}
+				if(!lists[x].icon) {
+					if(lists[x].child) {
+						lists[x].icon = 2;
+					} else {
+						lists[x].icon = 0;
+					}
+				}
+
+				setTreeItemIcon(lists[x], lists[x].icon);
+
+				if(lists[x].child) {
+					showTree(lists[x].child);
+				}
+			}
+		}
+
+		//收起动作，隐藏下级所有元素
+		//展开动作，仅展开子级元素
+		//icon表示图标，图标有三种0，无下级，1：加号，2减号。
+		//hide表示是否隐藏，0显示，1隐藏
+		function updateTree(lists, id) {
+			for(var x in lists) {
+				if(lists[x].id == id) {
+					if(lists[x].icon == 1) {
+						setTreeItemIcon(lists[x], 2);
+						for(var y in lists[x].child) {
+							setTreeItemHide(lists[x].child[y], 0);
+						}
+					} else if(lists[x].icon == 2) {
+						setTreeItemIcon(lists[x], 1);
+						updateChildTree(lists[x].child);
+					}
+					break;
+				}
+				if(lists[x].child) {
+					updateTree(lists[x].child, id);
+				}
+			}
+
+			layui.data('categoryTree', {
+				key: 'list',
+				value: categoryTree
+			});
+		}
+		
+		//更新某元素下的所有下级元素
+		function updateChildTree(lists) {
+			for(var x in lists) {
+
+				if(lists[x].icon == 2) {
+					setTreeItemIcon(lists[x], 1);
+				}
+				setTreeItemHide(lists[x], 1);
+				if(lists[x].child) {
+					updateChildTree(lists[x].child);
+				}
+			}
+		}
+		
+		//设置隐藏状态
+		function setTreeItemHide(item, hide) {
+			item.hide = hide;
+			if(hide == 1) {
+				$('#id-' + item.id).hide();
+			} else if(hide == 0) {
+				$('#id-' + item.id).show();
+			}
+			return item;
+		}
+		
+		//设置元素的图标
+		function setTreeItemIcon(item, icon) {
+			var icoDom = $('#id-' + item.id).find('.zz-tree-icon>i');
+			item.icon = icon;
+			if(icon == 0) {
+				icoDom.removeAttr('class').attr('class', 'layui-icon zz-tree-sigle layui-icon-file');;
+			} else if(icon == 1) {
+				icoDom.removeAttr('class').attr('class', 'layui-icon zz-tree-ctrl layui-icon-addition');;
+			} else if(icon == 2) {
+				icoDom.removeAttr('class').attr('class', 'layui-icon zz-tree-ctrl layui-icon-subtraction');;
+			}
+			return item;
+		}
+		
+		//删除父元素下子级元素
+		function delItemFromParent(lists,pid,id){
+			var item = getTreeItemById(lists, pid);
+			if(item) {
+				//为防止重复数据，验证子列表中，是否存在该元素。
+				for(var x in item.child){
+					if(item.child[x].id==id){
+						item.child.splice(x,1);
+					}
+				}
+				if(item.child&&item.child.length==0){
+					delete item.child;
+					setTreeItemIcon(item,0);
+				}
+				layui.data('categoryTree', {
+					key: 'list',
+					value: categoryTree
+				});
+			}
+		}
+
+		//根据id获得数据项
+		function getTreeItemById(lists, id) {
+			var treeItem=null;
+			for(var x in lists) {
+				if(treeItem){
+					break;
+				}
+				if(lists[x].id == id) {
+					return lists[x];
+				}
+				if(lists[x].child) {
+					treeItem=getTreeItemById(lists[x].child, id);
+				}
+			}
+			return treeItem;
+		}
+		
+		//获得cookie
+		function getCookie(name)
+		{
+			var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+			if(arr=document.cookie.match(reg))
+				return unescape(arr[2]);
+			else
+				return null;
+		}
+		
+		//删除cookie
+		function delCookie(name)
+		{
+			var cval=getCookie(name);
+			if(cval!=null)
+				document.cookie = name+'='+cval+';expires='+(new Date(1))+';path=/';
+		}
+
+		
+		$(".zz-tree-list").on("click", '.zz-tree-ctrl', function(event) {
+			var thisParentTreeItem = $(this).parent().parent().parent('.zz-tree-item');
+			var id = thisParentTreeItem.attr('data-id');
+			updateTree(categoryTree, parseInt(id));
+		});
+		
+		$('.lbtn-del-category').click(function(){
+			var that=this;
+			var thisParentTreeItem = $(this).parents('.zz-tree-item');
+			var id = parseInt(thisParentTreeItem.attr('data-id'));
+			var pid = parseInt(thisParentTreeItem.attr('data-pid'));
+			var confirmLayer=top.layer.confirm('您确认要执行该操作吗？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                top.layer.close(confirmLayer);
+                var loadIndex=top.layer.load(1, {
+		            shade: [0.2,'#000'] //0.1透明度的白色背景
+		        });
+                var target=$(that).attr('href');
+                $.post(target,function(data){
+                	top.layer.close(loadIndex);
+                	if(data.code==1){
+                		//删除本地存储中的元素
+	                	//先获取当前元素的父级元素。
+						delItemFromParent(categoryTree,pid,id);
+						thisParentTreeItem.remove();
+	                    top.layer.msg(data.msg?data.msg:'操作成功',{icon: 1,time:data.wait*1000});
+	                }
+	                else{
+	                    top.layer.msg(data.msg?data.msg:'上传失败',{icon: 2,time:data.wait*1000});
+	                }
+                	
+                });
+            });
+            return false;
+		});
+	});
+</script>
+
+{/block}
