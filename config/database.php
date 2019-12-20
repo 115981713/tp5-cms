@@ -3,13 +3,13 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => 'localhost',
+    'hostname'        => '47.75.192.112',
     // 数据库名
-    'database'        => 'hulacwms',
+    'database'        => 'tp5_cms',
     // 用户名
-    'username'        => 'root',
+    'username'        => 'tp5_cms',
     // 密码
-    'password'        => '123',
+    'password'        => 'ZKbkwnnX8TChYC3b',
     // 端口
     'hostport'        => '3306',
     // 连接dsn
