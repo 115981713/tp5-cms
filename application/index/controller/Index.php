@@ -24,6 +24,7 @@ class Index extends Base
     {
         //兼容模板标签
         $this->assign('id',0);
-        return $this->fetch(TPL.'index.htm');
+        // return $this->fetch(TPL.'index.htm');
+        return $this->fetch('index');
     }
 }
