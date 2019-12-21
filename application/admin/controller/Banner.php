@@ -31,7 +31,7 @@ class Banner extends Base
         if ( request() -> isPost()) {
             $data = $_POST;
             //验证
-            $Validate = new DocumentValidate();
+            $Validate = new BannerValidate();
             if (!$Validate -> check($data)) {
                 $this -> error($Validate -> getError());
             }
