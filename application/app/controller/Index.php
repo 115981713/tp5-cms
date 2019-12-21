@@ -24,4 +24,9 @@ class Index extends Base
     {
         echo 123456;die;
     }
+
+    public function ver()
+    {
+        echo 123456;die;
+    }
 }
