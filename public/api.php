@@ -17,6 +17,6 @@ define('__ROOT__',  '');
 // 定义配置文件目录和应用目录同级
 define('CONF_PATH', __DIR__.'/../config/');
 //绑定模块
-define('BIND_MODULE','app');
+define('BIND_MODULE','api');
 // 加载框架引导文件
 require __DIR__ . '/../thinkphp/start.php';
