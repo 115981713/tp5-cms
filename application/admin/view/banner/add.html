@@ -20,7 +20,7 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">名称：</label>
                                     <div class="layui-input-block">
-                                        <input class="layui-input" lay-verify="required" name="title"
+                                        <input class="layui-input" lay-verify="required" name="name"
                                                type="text">
                                     </div>
                                 </div>
@@ -28,9 +28,7 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">设置状态：</label>
                                     <div class="layui-input-block">
-                                        <input type="checkbox" name="display" lay-text="显示|隐藏" lay-skin="switch" value="1" checked>
-                                        <input type="checkbox" name="isrecommend" lay-text="推荐|不推荐" lay-skin="switch" value="1">
-                                        <input type="checkbox" name="istop" lay-text="置顶|不置顶" lay-skin="switch" value="1">
+                                        <input type="checkbox" name="status" lay-text="显示|隐藏" lay-skin="switch" value="1" checked>
                                     </div>
                                 </div>
 
@@ -41,7 +39,7 @@
                                             <button class="layui-btn zzBtnUploadPicMultiple" type="button">
                                                 <i class="layui-icon">&#xe67c;</i>上传图片
                                             </button>
-                                            <input class="zz-upload-value" name="piclist" type="hidden" value="">
+                                            <input class="zz-upload-value" name="img" type="hidden" value="">
                                             <div class="zz-upload-pic-show layui-row"></div>
                                         </div>
                                     </div>

@@ -31,64 +31,35 @@ class Banner extends Base
         if ( request() -> isPost()) {
             $data = $_POST;
             //验证
-            $documentValidate = new DocumentValidate();
-            if (!$documentValidate -> check($data)) {
-                $this -> error($documentValidate -> getError());
+            $Validate = new DocumentValidate();
+            if (!$Validate -> check($data)) {
+                $this -> error($Validate -> getError());
             }
 
-            //添加到产品表$documentData；添加到产品附表$dcdata
-            $documentData = array();
-            $documentExtData = array();
+            //添加到banner表$Data
+            $Data = array();
 
-            
-            //是否推荐
-            $documentData['isrecommend'] = isset($data['isrecommend']) ? 1 : 0;
-            //              是否置顶
-            $documentData['istop'] = isset($data['istop']) ? 1 : 0;
-            //              是否可见
-            $documentData['display'] = isset($data['display']) ? 1 : 0;
+            $Data['name'] = $data['name'];
+            //是否显示
+            $Data['status'] = isset($data['status']) ? 1 : 0;
+ 
 
-            $documentData['uid'] = UID;
-            $documentData['type'] = 'product';
-            $documentData['title'] = $data['title'];
-            $documentData['writer'] = db('admin_member') -> where('id', UID) -> value('username');
-            $documentData['category_id'] = $data['category_id'];
-            $documentData['keywords'] = $data['keywords'];
-            $documentData['link_str'] = $data['link_str'];
-            if ($data['piclist']) {
+            if ($data['img']) {
                 //首图做封面
-                $piclistArr = explode(',', $data['piclist']);
-                $documentData['cover_path'] = $piclistArr[0];
+                $piclistArr = explode(',', $data['img']);
+                $Data['img'] = $piclistArr[0];
             }
 
-            $documentData['sort'] = $data['sort'];
-            $documentData['description'] = $data['description'];
-            $documentData['create_time'] = time();
-            $documentData['update_time'] = time();
-            $documentData['status'] = 1;
-            $re1 = db('document') -> insertGetId($documentData);
+            $Data['update_time'] = time();
+
+            $re1 = db('banner') -> insertGetId($Data);
             if ($re1) {
-                //附表添加数据
-                $documentExtData['id'] = $re1;
-                //产品附加表数据
-                $documentExtData['content'] = $data['content'];
-                $documentExtData['piclist'] = $data['piclist'];
-                $documentExtData['price'] = $data['price'];
-                $documentExtData['market_price'] = $data['market_price'];
-                db('document_product') -> insert($documentExtData);
-                action_log("document_product_add", "document_article", $re1, UID);
+                action_log("banner_add", "banner", $re1, UID);
                 $this -> success('新增成功', 'index');
             } else {
                 $this -> error('新增失败');
             }
         } else {
-            //查询产品分类列表
-            $whereDocument['status'] = 1;
-            $document_category = db('document_category') -> where($whereDocument) -> field('id,title,pid') -> select();
-            $document_category=list_to_tree($document_category);
-            $document_category=list_to_char_tree($document_category);
-            $this -> assign('dclist', $document_category);
-            $this -> meta_title = '新增产品';
             return $this -> fetch();
         }
     }
