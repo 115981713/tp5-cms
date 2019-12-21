@@ -22,7 +22,16 @@ class Index extends Base
      */
     public function index()
     {
-        echo 123456;
+        $lists = db('document') -> alias('a')  
+            ->join('document_category b', 'a.category_id = b.id') 
+            -> field('a.*,b.title as categorytitle') 
+            -> order('create_time desc') -> where($map) 
+            -> where("a.type='article' or a.type=''") -> paginate(config('LIST_ROWS'),false,['query' => request()->param()]);
+        $data = [
+            'code' => '200',
+            'list' => $lists
+        ];
+        echo json_encode($data);die;
     }
 
     public function ver()
