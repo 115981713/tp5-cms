@@ -50,7 +50,7 @@ class Banner extends Base
                 $Data['img'] = $piclistArr[0];
             }
 
-            $Data['update_time'] = time();
+            $Data['updated_at'] = time();
 
             $re1 = db('banner') -> insertGetId($Data);
             if ($re1) {
