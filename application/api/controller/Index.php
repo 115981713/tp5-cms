@@ -22,11 +22,8 @@ class Index extends Base
      */
     public function index()
     {
-        $lists = db('document') -> alias('a')  
-            ->join('document_category b', 'a.category_id = b.id') 
-            -> field('a.*,b.title as categorytitle') 
-            -> order('create_time desc')
-            -> where("a.type='article' or a.type=''");
+        $lists = db('document')
+            -> order('create_time desc');
         $data = [
             'code' => '200',
             'list' => $lists
