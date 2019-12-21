@@ -32,13 +32,12 @@
                             <td><input type="checkbox" class="zz-table-chk-item" value="{$vo.id}" lay-skin="primary"></td>
                             <td>{$vo.id}</td>
                             <td><a class="layui-table-link" href="{:url('index?pid='.$vo['id'])}">{$vo.name}</a></td>
-                            <td>{$vo.updated_at}</td>
+                            <td>{$vo.updated_at|date="Y-m-d H:i:s",###}</td>
 
                             <td class="layui-table-cell">
                                <input type="checkbox" lay-filter="zz-switch-display"  data-href="{:url('hide?id='.$vo['id'])}" name="hide" value="{$vo.status}" {$vo.status==1?'checked':''} lay-skin="switch" lay-text="显示|隐藏">
                             </td>
                             <td>
-                                <a href="{:url('add?pid='.$vo['id'])}" class="layui-btn layui-btn-primary layui-btn-xs open-win" title="添加后台子菜单">添加子菜单</a>
                                 <a href="{:url('edit?id='.$vo['id'])}" class="layui-btn layui-btn-xs layui-btn-normal open-win" title="编辑后台菜单">编辑</a>
                                 <a href="{:url('del?ids='.$vo['id'])}" class="layui-btn layui-btn-danger layui-btn-xs confirm ajax-post">删除</a>
                             </td>
