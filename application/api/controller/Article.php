@@ -7,13 +7,13 @@
 // | Author: 灼灼文化
 // +----------------------------------------------------------------------
 
-namespace app\index\controller;
+namespace app\api\controller;
 use think\Controller;
 
 /**
  * 应用入口
  * Class Index
- * @package app\index\controller
+ * @package app\api\controller
  */
 class Article extends Base
 {

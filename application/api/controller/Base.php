@@ -7,7 +7,7 @@
 // | Author: 灼灼文化
 // +----------------------------------------------------------------------
 
-namespace app\index\controller;
+namespace app\api\controller;
 use think\Controller;
 use think\Url;
 use think\Route;

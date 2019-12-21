@@ -7,7 +7,7 @@
 // | Author: 灼灼文化
 // +----------------------------------------------------------------------
 
-namespace app\index\controller;
+namespace app\api\controller;
 use app\common\validate\Messageform as MessageformValidate;
 
 
