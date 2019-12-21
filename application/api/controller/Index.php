@@ -22,7 +22,7 @@ class Index extends Base
      */
     public function index()
     {
-        echo 123456;die;
+        echo 123456;
     }
 
     public function ver()
