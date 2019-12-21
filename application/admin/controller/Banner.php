@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace app\admin\controller;
-use app\common\validate\AdminMenu as AdminMenuValidate;
+use app\common\validate\Banner as BannerValidate;
 use think\db;
 
 
@@ -103,16 +103,16 @@ class Banner extends Base
 		}
         if(request()->isPost()){
             $data=$_POST;
-            $adminMenuValidate=new AdminMenuValidate();
-            if (!$adminMenuValidate->check($data)) {
-                $this->error($adminMenuValidate->getError());
+            $BannerValidate=new BannerValidate();
+            if (!$BannerValidate->check($data)) {
+                $this->error($BannerValidate->getError());
             }
 			$data['hide']=isset($data['hide'])?1:0;
             $re=db('admin_menu')->update($data);
             if($re){
                 session('ADMIN_MENU_LIST',null);
                 //                添加行为记录
-                action_log("adminmenu_edit","admin_menu",$data['id'],UID);
+                action_log("banner_edit","admin_menu",$data['id'],UID);
                 $this->success('编辑成功','');
             } else {
                 $this->error('编辑失败');
@@ -148,7 +148,7 @@ class Banner extends Base
         if(db('admin_menu')->delete($ids)){
             session('ADMIN_MENU_LIST',null);
             //                添加行为记录
-            action_log("adminmenu_del","admin_menu",$ids,UID);
+            action_log("banner_del","admin_menu",$ids,UID);
             $this->success('删除成功');
         } else {
             $this->error('删除失败！');
@@ -162,15 +162,15 @@ class Banner extends Base
             $data['id']=input('id');
             $data['sort']=input('sort');
 
-            $adminMenuValidate=new AdminMenuValidate();
-            if (!$adminMenuValidate->scene('sort')->check($data)) {
-                $this->error($adminMenuValidate->getError());
+            $BannerValidate=new BannerValidate();
+            if (!$BannerValidate->scene('sort')->check($data)) {
+                $this->error($BannerValidate->getError());
             }
             $res=db('admin_menu')->update($data);
             if($res){
                 session('ADMIN_MENU_LIST',null);
                 //                添加行为记录
-                action_log("adminmenu_sort","admin_menu",$data['id'],UID);
+                action_log("banner_sort","admin_menu",$data['id'],UID);
                 $this->success('排序修改成功！');
             }else{
                 $this->error('排序修改失败！');
@@ -190,11 +190,11 @@ class Banner extends Base
 
             if($data['hide']==1){
 				//隐藏
-                $adminmenu_status="adminmenu_status_yin";
+                $banner_status="banner_status_yin";
             }
             if($data['hide']==0){
 				//显示
-                $adminmenu_status="adminmenu_status_xian";
+                $banner_status="banner_status_xian";
             }
 
             $res=db('admin_menu')->update($data);
@@ -202,7 +202,7 @@ class Banner extends Base
             if($res){
                 session('ADMIN_MENU_LIST',null);
                 //                添加行为记录
-                action_log($adminmenu_status,"admin_menu",$data['id'],UID);
+                action_log($banner_status,"admin_menu",$data['id'],UID);
                 $this->success('操作成功！');
             }else{
                 $this->error('操作失败！');
