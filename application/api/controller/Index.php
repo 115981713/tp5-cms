@@ -23,7 +23,8 @@ class Index extends Base
     public function index()
     {
         $lists = db('document')
-            -> order('create_time desc');
+            ->order('create_time desc')
+            ->select();
         $data = [
             'code' => '200',
             'list' => $lists
