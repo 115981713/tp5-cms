@@ -25,8 +25,8 @@ class Index extends Base
         $lists = db('document') -> alias('a')  
             ->join('document_category b', 'a.category_id = b.id') 
             -> field('a.*,b.title as categorytitle') 
-            -> order('create_time desc') -> where($map) 
-            -> where("a.type='article' or a.type=''") -> paginate(config('LIST_ROWS'),false,['query' => request()->param()]);
+            -> order('create_time desc')
+            -> where("a.type='article' or a.type=''");
         $data = [
             'code' => '200',
             'list' => $lists
