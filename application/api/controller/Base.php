@@ -39,4 +39,13 @@ class Base extends Controller
             Url::root('/index.php');
         }
     }
+
+    public function out($code,$data=[],$msg=''){
+        $arr = [
+            'code' => $code,
+            'data' => $data,
+            'msg' => $msg
+        ];
+        echo json_encode($arr);die;
+    }
 }

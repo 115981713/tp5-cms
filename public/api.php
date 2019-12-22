@@ -1,10 +1,14 @@
 <?php
+header('Content-Type: text/html;charset=utf-8');
+header('Access-Control-Allow-Origin:*'); // *代表允许任何网址请求
+header('Access-Control-Allow-Methods:POST,GET,OPTIONS,DELETE'); // 允许请求的类型
+header('Access-Control-Allow-Credentials: true'); // 设置是否允许发送 cookies
 // +----------------------------------------------------------------------
-// | HulaCWMS 呼啦企业网站管理系统
+// | CMS 网站管理系统
 // +----------------------------------------------------------------------
-// | Copyright (c) 2019 http://www.zhuopro.com All rights reserved.
+// | 
 // +----------------------------------------------------------------------
-// | Author: 灼灼文化
+// | Author: 
 // +----------------------------------------------------------------------
 
 // [ 应用入口文件 ]
