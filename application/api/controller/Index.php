@@ -9,6 +9,7 @@
 
 namespace app\api\controller;
 use think\Controller;
+use think\Cache;
 
 /**
  * 应用入口
@@ -34,6 +35,8 @@ class Index extends Base
 
     public function ver()
     {
-        echo 123456;die;
+        // Cache::set('a','aaaa',10);
+        $x = Cache::get('a') ? Cache::get('a') : 'ccc';
+        echo $x;die;
     }
 }

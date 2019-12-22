@@ -9,6 +9,7 @@
 
 namespace app\api\controller;
 use think\Controller;
+use think\Cache;
 
 /**
  * 应用入口
@@ -34,11 +35,15 @@ class Banner extends Base
 
     public function list()
     {
-        $list = db('banner')
-            ->field('id,name,img')
-            ->where(['status'=>1])
-            ->order('updated_at desc')
-            ->select();
+        $list = Cache::get('banner_list');
+        if (!$list) {
+            $list = db('banner')
+                ->field('id,name,img')
+                ->where(['status'=>1])
+                ->order('updated_at desc')
+                ->select();
+            Cache::set('banner_list',$list,3600);
+        }
         $this->out(200,$list);
     }
 }
