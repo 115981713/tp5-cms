@@ -13,6 +13,10 @@ use think\Request;
 
 class Base extends Controller
 {
+    public function getRoot() {
+        $root = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER['HTTP_HOST'];
+        return $root;
+    }
     protected function _initialize(){
 
         //验证用户凭证

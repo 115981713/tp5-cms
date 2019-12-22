@@ -1,5 +1,4 @@
 
-/config/main.php
 # phpstorm project files
 .idea
 
@@ -19,7 +18,7 @@ Thumbs.db
 
 #自定义
 /runtime
-/config/database.php
+/config
 
 # composer itself is not needed
 composer.phar

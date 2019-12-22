@@ -47,7 +47,7 @@ class Banner extends Base
             if ($data['img']) {
                 //首图做封面
                 $piclistArr = explode(',', $data['img']);
-                $Data['img'] = $piclistArr[0];
+                $Data['img'] = $this->getRoot().$piclistArr[0];
             }
 
             $Data['updated_at'] = time();
@@ -65,26 +65,41 @@ class Banner extends Base
     }
 
     /**
-     * 编辑后台菜单
+     * 编辑banner
      */
     public function edit($id = 0){
-    	$info=db('admin_menu')->find($id);
+    	$info=db('banner')->find($id);
 		if(!$info){
-			$this->error('后台菜单不存在或已删除！');
+			$this->error('banner不存在或已删除！');
 		}
         if(request()->isPost()){
             $data=$_POST;
-            $BannerValidate=new BannerValidate();
-            if (!$BannerValidate->check($data)) {
-                $this->error($BannerValidate->getError());
+            $Validate=new BannerValidate();
+            if (!$Validate->check($data)) {
+                $this->error($Validate->getError());
             }
-			$data['hide']=isset($data['hide'])?1:0;
-            $re=db('admin_menu')->update($data);
+			$DataArr = array();
+
+            $DataArr['id'] = $id;
+            $DataArr['name'] = $data['name'];
+            //是否显示
+            $DataArr['status'] = isset($data['status']) ? 1 : 0;
+ 
+
+            if ($data['img']) {
+                //首图做封面
+                $piclistArr = explode(',', $data['img']);
+                $DataArr['img'] = $this->getRoot().$piclistArr[0];
+            }
+
+            $DataArr['updated_at'] = time();
+
+            $re=db('banner')->update($DataArr);
             if($re){
                 session('ADMIN_MENU_LIST',null);
                 //                添加行为记录
-                action_log("banner_edit","admin_menu",$data['id'],UID);
-                $this->success('编辑成功','');
+                action_log("banner_edit","banner_edit",$data['id'],UID);
+                $this->success('编辑成功','index');
             } else {
                 $this->error('编辑失败');
             }
@@ -92,7 +107,7 @@ class Banner extends Base
             $this->assign('id',$id);
             
             $this->assign('info',$info);
-            $this->meta_title = '编辑菜单';
+            $this->meta_title = '编辑banner';
             return $this->fetch();
         }
     }
