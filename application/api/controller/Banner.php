@@ -22,15 +22,15 @@ class Banner extends Base
      * 入口跳转链接
      */
     public function index()
-    {
-        $lists = db('document')
-            ->order('create_time desc')
+    { 
+        
+        $list = db('banner')
+            ->field('id,name,img')
+            ->where(['status'=>1])
+            ->order('updated_at desc')
             ->select();
-        $data = [
-            'code' => '200',
-            'list' => $lists
-        ];
-        echo json_encode($data);die;
+           
+        $this->out(200,$list);
     }
 
     public function list()
