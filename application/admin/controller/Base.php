@@ -13,9 +13,17 @@ use think\Request;
 
 class Base extends Controller
 {
+    // 本网站URL
     public function getRoot() {
         $root = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER['HTTP_HOST'];
         return $root;
+    }    
+
+    // 图片路径去除域名
+    public function getImgUrl($img) {
+        $path = strpos('/uploads',$img);
+        echo $path;die;
+        return $path;
     }
     protected function _initialize(){
 

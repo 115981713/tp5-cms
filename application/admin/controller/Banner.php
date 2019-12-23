@@ -98,7 +98,7 @@ class Banner extends Base
             if($re){
                 session('ADMIN_MENU_LIST',null);
                 //                添加行为记录
-                action_log("banner_edit","banner_edit",$data['id'],UID);
+                action_log("banner_edit","banner",$data['id'],UID);
                 $this->success('编辑成功','index');
             } else {
                 $this->error('编辑失败');
@@ -113,28 +113,21 @@ class Banner extends Base
     }
 
     /**
-     * 删除后台菜单
+     * 删除banner
      */
     public function del(){
         $ids = input('ids/a');
-
-        //判断要删除的数据，是否有子菜单。
-        foreach ($ids as $item){
-            $child=db('admin_menu')->where('pid',$item)->find();
-            if($child){
-                $this->error('检测到要删除菜单下，存在子菜单。请删除子菜单后，再执行删除命令!');
-                return;
-            }
-        }
 
         if ( empty($ids) ) {
             $this->error('请选择要操作的数据!');
         }
 
-        if(db('admin_menu')->delete($ids)){
-            session('ADMIN_MENU_LIST',null);
-            //                添加行为记录
-            action_log("banner_del","admin_menu",$ids,UID);
+        $list = db('banner')->field('img')->where('id','in',$ids)->select();
+
+        if(db('banner')->delete($ids)){
+            
+            //添加行为记录
+            action_log("banner_del","banner",$ids,UID);
             $this->success('删除成功');
         } else {
             $this->error('删除失败！');

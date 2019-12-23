@@ -22,7 +22,7 @@ class Banner extends Base
      * 入口跳转链接
      */
     public function index()
-    { 
+    {
         
         $list = db('banner')
             ->field('id,name,img')
