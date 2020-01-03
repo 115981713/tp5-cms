@@ -83,7 +83,7 @@ class Chitu extends Base
             ->where(['w.level_id'=>$id])
             ->order('w.level_sort')
             ->select();
-        foreach ($list_level as $k=$v) {
+        foreach ($list_level as $k=>$v) {
             $level_arr[$v['level_name']][] = $v;
         }
 
