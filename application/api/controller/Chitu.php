@@ -84,6 +84,15 @@ class Chitu extends Base
         }
         
         $this->out(200,$arr);
+    }        
+
+    // 所有抽奖数据重置
+    public function reset_win()
+    {
+        $res = db('chitu_win')->delete();
+        $res2 = db('chitu_win_level')->update(['type'=>0]);
+        $res3 = db('chitu_user')->update(['status'=>0]);
+        $this->out(200,'中奖名单:'.$res.',奖项状态:'.$res2.',人员状态:'.$res3);
     }    
 
     // 保存中奖人员
