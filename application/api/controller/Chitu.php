@@ -80,7 +80,6 @@ class Chitu extends Base
             ->field('w.*,l.level_name')
             ->alias('w')
             ->join('chitu_win_level l','a.level_id=l.id')
-            ->where(['w.level_id'=>$id])
             ->order('w.level_sort')
             ->select();
         foreach ($list_level as $k=>$v) {
