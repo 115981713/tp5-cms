@@ -33,6 +33,20 @@ class Chitu extends Base
 
         $this->out(200,$list);
         
+    }    
+
+    /**
+     * 奖项详情
+     */
+    public function level_detail()
+    {
+        $id = $_POST['id'];
+        $list = db('chitu_win_level')
+            ->where('id',$id)
+            ->find();
+
+        $this->out(200,$list);
+        
     }
 
     // 未中奖人员列表
