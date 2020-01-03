@@ -79,8 +79,8 @@ class Chitu extends Base
         $list = db('chitu_win')
             ->field('w.*,l.level_name')
             ->alias('w')
-            ->join('chitu_win_level l','a.level_id=l.id')
-            ->order('w.level_sort')
+            ->join('chitu_win_level l','w.level_id=l.id')
+            ->order('w.level_sort asc')
             ->select();
         foreach ($list_level as $k=>$v) {
             $level_arr[$v['level_name']][] = $v;
