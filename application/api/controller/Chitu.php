@@ -67,7 +67,7 @@ class Chitu extends Base
         $level = db('chitu_win_level')->where('id',$id)->find();
         $list = db('chitu_win')
             ->alias('w')
-            ->field('w.*,u.name')
+            ->field('w.*,u.name,u.type')
             ->join('chitu_user u','w.user_id=u.id')
             ->where(['w.level_id'=>$id])
             ->select();
@@ -83,7 +83,7 @@ class Chitu extends Base
         $level_arr = [];
         $list = db('chitu_win')
             ->alias('w')
-            ->field('w.*,l.level_name,u.name')
+            ->field('w.*,l.level_name,u.name,u.type')
             ->join('chitu_win_level l','w.level_id=l.id')
             ->join('chitu_user u','w.user_id=u.id')
             ->order('w.level_sort asc')
