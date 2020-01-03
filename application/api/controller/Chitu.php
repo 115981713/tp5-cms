@@ -87,7 +87,7 @@ class Chitu extends Base
     }    
 
     // 保存中奖人员
-    public function WinNList()
+    public function saveWinNList()
     {
         $id = $_POST['id'];
         $list = $_POST['list'];
