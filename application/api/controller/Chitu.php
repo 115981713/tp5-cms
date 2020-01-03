@@ -31,7 +31,7 @@ class Chitu extends Base
             $list[$k]['count'] = db('chitu_win')->where(['level_id'=>$v['id']])->count();
         }
 
-        $this->out(200,$list,$title);
+        $this->out(200,$list);
         
     }    
 
