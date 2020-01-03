@@ -95,7 +95,7 @@ class Chitu extends Base
         // 判断是否抽取过
         $is_win = db('chitu_win_level')->where('id',$id)->find();
         if ($is_win) {
-            $type = $is_win['type'];
+            $type = $is_win['level'];
             $time = time();
             if (!$list) {
                 $this->out(400,'中奖人员不存在，请重试！');
