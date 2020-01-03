@@ -186,4 +186,16 @@ class Chitu extends Base
             $this->out(400,'奖项不存在，请刷新重试！');
         }
     }
+
+    // 验证登录
+    function is_login() {
+        $value = $_POST['value'];
+        $set = db('setting')->where('k','chitu')->find();
+        $set_value = $set['value'] ? $set['value'] : '';
+        if ($set_value == $value) {
+            $this->out(200,'欢迎进入抽奖系统！');
+        } else {
+            $this->out(400,'口令错误，请重试！');
+        }
+    }
 }
