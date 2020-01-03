@@ -67,7 +67,7 @@ class Chitu extends Base
         $level = db('chitu_win_level')->where('id',$id)->find();
         $list = db('chitu_win')->where(['level_id'=>$id])->select();
         $arr = [];
-        $arr[$level['level_name']][] = $list;
+        $arr[$level['level_name']] = $list;
         
         $this->out(200,$arr);
     }    
