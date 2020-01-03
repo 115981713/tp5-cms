@@ -64,26 +64,30 @@ class Chitu extends Base
     public function WinNList()
     {
         $id = $_POST['id'];
-        $list = db('chitu_win')
-            ->where(['level_id'=>$id])
-            ->select();
+        $level = db('chitu_win_level')->where('id',$id)->find();
+        $list = db('chitu_win')->where(['level_id'=>$id])->select();
+        $arr = [];
+        $arr[$level['level_name']][] = $list;
         
-        $this->out(200,$list);
+        $this->out(200,$arr);
     }    
 
     // 全部中奖人员列表
     public function WinAllList()
     {
-        $id = $_POST['id'];
+        $level_arr = [];
         $list = db('chitu_win')
+            ->field('w.*,l.level_name')
+            ->alias('w')
+            ->join('chitu_win_level l','a.level_id=l.id')
+            ->where(['w.level_id'=>$id])
+            ->order('w.level_sort')
             ->select();
-
-        $arr = [];
-        foreach ($list as $k=>$v) {
-            $arr[$type][] = $v;
+        foreach ($list_level as $k=$v) {
+            $level_arr[$v['level_name']][] = $v;
         }
-        
-        $this->out(200,$arr);
+
+        $this->out(200,$level_arr);
     }        
 
     // 所有抽奖数据重置
@@ -105,13 +109,11 @@ class Chitu extends Base
         $is_win = db('chitu_win_level')->where('id',$id)->find();
         if ($is_win) {
             $type = $is_win['level'];
+            $sort = $is_win['sort'];
             $time = time();
             if (!$list) {
                 $this->out(400,'中奖人员不存在，请重试！');
             }
-
-
-
 
             if ($is_win['type'] == 1) {
                 // 已经抽取过
@@ -127,7 +129,8 @@ class Chitu extends Base
                         'user_id' => $v['id'],
                         'type' => $type,
                         'time' => $time,
-                        'level_id'=>$id
+                        'level_id'=>$id,
+                        'level_sort'=>$sort,
                     ];
                 }
 
