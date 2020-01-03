@@ -77,13 +77,14 @@ class Chitu extends Base
     {
         $level_arr = [];
         $list = db('chitu_win')
-            ->field('w.*,l.level_name,u.name as time')
+            ->field('w.*,l.level_name')
             ->alias('w')
             ->join('chitu_win_level l','w.level_id=l.id')
-            ->join('chitu_user u','w.user_id=u.id')
             ->order('w.level_sort asc')
             ->select();
         foreach ($list as $k=>$v) {
+            $user = db('chitu_user')->where('id',$v['user_id'])->find();
+            $v['name'] = $user['name'];
             $level_arr[$v['level_name']][] = $v;
         }
 
