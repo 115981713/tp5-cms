@@ -92,7 +92,7 @@ class Chitu extends Base
         $res = db('chitu_win')->where('id','>=',1)->delete();
         $res2 = db('chitu_win_level')->where('id','>=',1)->update(['type'=>0]);
         $res3 = db('chitu_user')->where('id','>=',1)->update(['status'=>0]);
-        $this->out(200,'中奖名单:'.$res.',奖项状态:'.$res2.',人员状态:'.$res3);
+        $this->out(200,'win:'.$res.',win_level:'.$res2.',user:'.$res3);
     }    
 
     // 保存中奖人员
@@ -109,6 +109,9 @@ class Chitu extends Base
             if (!$list) {
                 $this->out(400,'中奖人员不存在，请重试！');
             }
+
+
+
 
             if ($is_win['type'] == 1) {
                 // 已经抽取过
@@ -148,38 +151,37 @@ class Chitu extends Base
     public function ReWinNList()
     {
         $id = $_POST['id'];
-        $list = $_POST['list'];
 
         // 判断是否抽取过
         $is_win = db('chitu_win_level')->where('id',$id)->find();
         if ($is_win) {
-            $type = $is_win['type'];
-            $time = time();
-            if (!$list) {
-                $this->out(400,'中奖人员不存在，请重试！');
-            }
-            // 重新抽奖
-            $data = [];
-            $user_ids = [];
-            foreach ($list as $k=>$v) {
-                $user_ids[] = $v['id'];
-                $data[] = [
-                    'user_id' => $v['id'],
-                    'type' => $type,
-                    'time' => $time,
-                    'level_id'=>$id
+            $list = db('chitu_win')->where('level_id',$id)->select();
+            $flag = false;
+            if ($list) {
+                $win_user_list = [];
+                foreach ($list as $k=>$v) {
+                    $win_user_list[] = $v['user_id'];
+                }
 
-                ];
-            }
+                $str_user_ids = implode(',',$win_user_list);
+                $res_user = db('chitu_user')->where('id','in',$str_user_ids)->update(['status'=>0]);
+                $res_level = db('chitu_win_level')->where('id',$id)->update(['type'=>0]);
+                $res_win= db('chitu_win')->where('level_id',$id)->delete();
 
-            $res = db('chitu_win')->insertAll($data);
-            if ($res) {
-                $this->out(200,'抽奖成功！');
+                if ($res_user && $res_level && $res_win) {
+                    $flag = true;
+                }
+
+                if ($flag) {
+                    $this->out(200,'重新设置成功，请重新抽选！');
+                } else {
+                    $this->out(400,'服务器错误，请暂停操作！');
+                }
+
             } else {
-                $this->out(400,'结果保存失败，请重新抽取！');
+                $this->out(400,'没有中奖人数！');
             }
 
-            
         } else {
             $this->out(400,'奖项不存在，请刷新重试！');
         }
