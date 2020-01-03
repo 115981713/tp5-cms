@@ -90,8 +90,8 @@ class Chitu extends Base
     public function reset_win()
     {
         $res = db('chitu_win')->where('id','>=',1)->delete();
-        $res2 = db('chitu_win_level')->update(['type'=>0]);
-        $res3 = db('chitu_user')->update(['status'=>0]);
+        $res2 = db('chitu_win_level')->where('id','>=',1)->update(['type'=>0]);
+        $res3 = db('chitu_user')->where('id','>=',1)->update(['status'=>0]);
         $this->out(200,'中奖名单:'.$res.',奖项状态:'.$res2.',人员状态:'.$res3);
     }    
 
