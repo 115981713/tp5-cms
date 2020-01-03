@@ -121,6 +121,9 @@ class Chitu extends Base
 
                 $res = db('chitu_win')->insertAll($data);
                 if ($res) {
+                    // 修改奖项状态，人员状态
+                    db('chitu_win_level')->where('id',$id)->update(['type'=>1]);
+                    db('chitu_user')->where('id','in',implode(',',$user_ids))->update(['status'=>1]);
                     $this->out(200,'抽奖成功！');
                 } else {
                     $this->out(400,'结果保存失败，请重新抽取！');
