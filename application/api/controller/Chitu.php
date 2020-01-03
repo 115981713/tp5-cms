@@ -84,6 +84,7 @@ class Chitu extends Base
             ->order('w.level_sort asc')
             ->select();
         foreach ($list as $k=>$v) {
+            $this->out(200,$v);
             // $user = db('chitu_user')->where('id',$v['user_id'])->find();
             // $v['time'] = $user['name'];
             $level_arr[$v['level_name']][] = $v;
