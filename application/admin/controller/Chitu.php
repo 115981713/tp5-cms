@@ -109,21 +109,17 @@ class Chitu extends Base
     }
 
     /**
-     * 删除banner
+     * 删除user
      */
     public function del(){
-        $ids = input('ids/a');
-
-        if ( empty($ids) ) {
+        $id = input('id/a');
+        if ( empty($id) ) {
             $this->error('请选择要操作的数据!');
         }
 
-        $list = db('banner')->field('img')->where('id','in',$ids)->select();
-
-        if(db('banner')->delete($ids)){
-            
+        if(db('chitu_user')->delete($id)){
             //添加行为记录
-            action_log("banner_del","banner",$ids,UID);
+            action_log("chitu_del","chitu",$id,UID);
             $this->success('删除成功');
         } else {
             $this->error('删除失败！');
