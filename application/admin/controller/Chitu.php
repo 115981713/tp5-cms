@@ -194,6 +194,47 @@ class Chitu extends Base
             $this->meta_title = '编辑banner';
             return $this->fetch();
         }
+    }    
+
+    /**
+     * 抽奖首页
+     */
+    public function win_title($id = 0){
+        $info=db('chitu_user')->find($id);
+        if(!$info){
+            $this->error('该记录不存在或已删除！');
+        }
+        if(request()->isPost()){
+            $data=$_POST;
+            $Validate=new ChituValidate();
+            if (!$Validate->check($data)) {
+                $this->error($Validate->getError());
+            }
+
+            $info = db('chitu_user')->where('id','<>',$id)->where('name',$data['name'])->find();
+            if ($info) {
+                $this->error('该姓名已添加！');
+            }
+            $DataArr = array();
+
+            $DataArr['id'] = $id;
+            $DataArr['name'] = $data['name'];
+            $DataArr['type'] = $data['type'];
+            $DataArr['company'] = $data['company'];
+           
+            $re=db('chitu_user')->update($DataArr);
+            if($re){
+                $this->success('编辑成功','users');
+            } else {
+                $this->error('编辑失败');
+            }
+        } else {
+            $this->assign('id',$id);
+            
+            $this->assign('info',$info);
+            $this->meta_title = '编辑banner';
+            return $this->fetch();
+        }
     }
 
     /**
