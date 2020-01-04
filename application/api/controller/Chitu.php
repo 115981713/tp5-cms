@@ -62,8 +62,13 @@ class Chitu extends Base
         $list = db('chitu_user')
                 ->where(['status'=>0])
                 ->select();
+                
+        $list_staff = db('chitu_user')
+                ->where(['type'=>'员工'])
+                ->where(['status'=>0])
+                ->select();
         
-        $this->out(200,$list);
+        $this->out(200,$list,$list_staff);
     }    
 
     // 抽中N等奖人员列表
