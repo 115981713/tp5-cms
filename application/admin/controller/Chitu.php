@@ -197,6 +197,24 @@ class Chitu extends Base
     }
 
     /**
+     * 删除抽奖
+     */
+    public function del_win(){
+        $id = input('id');
+        if ( empty($id) ) {
+            $this->error('请选择要操作的数据!');
+        }
+
+        if(db('chitu_win_level')->delete($id)){
+            //添加行为记录
+            action_log("chitu_win_del","chitu",$id,UID);
+            $this->success('删除成功');
+        } else {
+            $this->error('删除失败！');
+        }
+    }    
+
+    /**
      * 删除user
      */
     public function del(){
