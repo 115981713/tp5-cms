@@ -54,6 +54,7 @@ class Chitu extends Base
 
             $Data['name'] = $data['name'];
             $Data['type'] = $data['type'];
+            $Data['company'] = $data['company'];
             
             $re1 = db('chitu_user') -> insertGetId($Data);
             if ($re1) {
@@ -90,6 +91,7 @@ class Chitu extends Base
             $DataArr['id'] = $id;
             $DataArr['name'] = $data['name'];
             $DataArr['type'] = $data['type'];
+            $DataArr['company'] = $data['company'];
            
             $re=db('chitu_user')->update($DataArr);
             if($re){
