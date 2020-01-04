@@ -130,7 +130,7 @@ class Chitu extends Base
      * 设置为未抽奖
      */
     public function status_one(){
-        $id = input('id/a');
+        $id = input('id');
         if ( empty($id) ) {
             $this->error('请选择要操作的数据!');
         }
