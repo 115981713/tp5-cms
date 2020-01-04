@@ -125,6 +125,28 @@ class Chitu extends Base
             $this->error('删除失败！');
         }
     }
+
+    /**
+     * 设置为未抽奖
+     */
+    public function status_one(){
+        $id = input('id/a');
+        if ( empty($id) ) {
+            $this->error('请选择要操作的数据!');
+        }
+
+        $win = db('chitu_win')->where('user_id',$id)->find();
+
+        if(db('chitu_win')->delete($win['id'])){
+            db('chitu_user')->where('id',$id)->update(['status'=>0]);
+            //添加行为记录
+            // action_log("chitu_del","chitu",$id,UID);
+            $this->success('操作成功');
+        } else {
+            $this->error('操作失败！');
+        }
+    }
+
     /**
      * 菜单排序
      */
