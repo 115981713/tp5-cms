@@ -141,7 +141,7 @@ class Chitu extends Base
             $Data['show_time'] = $data['show_time'];
             $Data['sort'] = $Data['level'] = $data['sort'];
             
-            $re1 = db('chitu_win_level') -> insertGetId($Data);
+            $re1 = db('chitu_win_level')->update($Data);
             if ($re1) {
                 $this -> success('编辑成功');
             } else {
