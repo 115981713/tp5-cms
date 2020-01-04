@@ -70,9 +70,9 @@ class Chitu extends Base
                 ->where(['status'=>0])
                 ->select();
         // 非员工部分
+        $staff_no = [];
         if ($level['is_all'] == 3) {
             $num = $level['num'];
-            $staff_no = [];
 
             $pro = $num/10;
             //非员工
