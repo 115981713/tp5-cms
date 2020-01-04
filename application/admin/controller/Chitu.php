@@ -148,6 +148,9 @@ class Chitu extends Base
                 $this -> error('编辑失败');
             }
         } else {
+            $this->assign('id',$id);
+            
+            $this->assign('info',$info);
             return $this -> fetch();
         }
     }
