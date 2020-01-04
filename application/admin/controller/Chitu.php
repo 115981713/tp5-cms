@@ -32,6 +32,26 @@ class Chitu extends Base
         $this -> assign('page', $page);
         
         return $this->fetch();
+    }    
+
+    /**
+     * 抽奖列表首页
+     * @return none
+     */
+    public function win(){
+        $name = trim(input('get.level_name'));
+        $map = [];
+        if ($name) {
+            $map['level_name'] = array('like', "%$name%");
+        }
+        $lists = db('chitu_win_level') ->where($map)-> paginate(config('LIST_ROWS'),false,['query' => request()->param()]);
+        $this->ifPageNoData($lists);
+        $page = $lists -> render();
+
+        $this -> assign('lists', $lists);
+        $this -> assign('page', $page);
+        
+        return $this->fetch();
     }
 
     /**
