@@ -135,7 +135,7 @@ class Chitu extends Base
             //添加到banner表$Data
             $Data = array();
 
-            $Data['id'] = $data['id'];
+            $Data['id'] = $id;
             $Data['level_name'] = $data['level_name'];
             $Data['num'] = $data['num'];
             $Data['show_time'] = $data['show_time'];
