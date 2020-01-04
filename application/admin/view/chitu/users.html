@@ -49,7 +49,7 @@
                             
                             <td>
                                 {if condition="$vo.status eq 1"}
-                                    <a href="{:url('status_one?id='.$vo['id'])}" class="layui-btn layui-btn-xs layui-btn-normal" title="设置为未抽奖">设置为未抽奖</a>
+                                    <a href="{:url('status_one?id='.$vo['id'])}" class="layui-btn layui-btn-xs layui-btn-normal confirm ajax-post" title="设置为未抽奖">设置为未抽奖</a>
                                 {/if}
                                 <a href="{:url('edit?id='.$vo['id'])}" class="layui-btn layui-btn-xs layui-btn-normal" title="编辑">编辑</a>
                                 <a href="{:url('del?id='.$vo['id'])}" class="layui-btn layui-btn-danger layui-btn-xs confirm ajax-post">删除</a>
