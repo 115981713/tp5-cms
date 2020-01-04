@@ -58,22 +58,10 @@ class Chitu extends Base
     // 未中奖人员列表
     public function noWinList()
     {
-        $id = $_POST['id'];
-        $level = db('chitu_win_level')
-            ->where('id',$id)
-            ->find();
-        if ($level['is_all'] == 1) {
-            $list = db('chitu_user')
-                ->where(['status'=>0])
-                ->select();
-        } else {
-            $list = db('chitu_user')
-                ->where(['type'=>'员工'])
-                ->where(['status'=>0])
-                ->select();
-        }
 
-        
+        $list = db('chitu_user')
+                ->where(['status'=>0])
+                ->select();
         
         $this->out(200,$list);
     }    
