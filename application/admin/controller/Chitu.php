@@ -199,7 +199,7 @@ class Chitu extends Base
     /**
      * 抽奖首页
      */
-    public function title($id = 0){
+    public function title(){
         $info=db('setting')->where('k','chitu_title')->find();
         if(!$info){
             $this->error('该记录不存在或已删除！');
@@ -208,10 +208,10 @@ class Chitu extends Base
             $data=$_POST;
             $DataArr = array();
 
-            $DataArr['id'] = $id;
+            $DataArr['id'] = $info['id'];
             $DataArr['value'] = $data['value'];
            
-            $re=db('setting')->update($DataArr);
+            $re=db('setting')->where('k',$data['k'])->update($DataArr);
             if($re){
                 $this->success('编辑成功');
             } else {

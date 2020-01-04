@@ -33,6 +33,35 @@
                             </button>
                             <button class="layui-btn layui-btn-primary zz-btn-cancel" type="button">取消</button>
                             <input name="id" type="hidden" value="{$id}">
+                            <input name="k" type="hidden" value="chitu_title">
+                        </div>
+                    </div>
+                </form>
+
+                <form action="{:url('')}" class="layui-form" lay-filter="example" method="post">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">基本信息</li>
+                        </ul>
+                        <div class="layui-tab-content layui-row">
+                            <div class="layui-tab-item layui-show">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">解释文字：</label>
+                                    <div class="layui-input-block">
+                                        <input class="layui-input" lay-verify="required" name="value"
+                                               type="text" value="{$info['value']}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-layout-admin">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-filter="zz-btn-submit" lay-submit="" type="submit">立即提交
+                            </button>
+                            <button class="layui-btn layui-btn-primary zz-btn-cancel" type="button">取消</button>
+                            <input name="id" type="hidden" value="{$id}">
+                            <input name="k" type="hidden" value="chitu_top_title">
                         </div>
                     </div>
                 </form>
