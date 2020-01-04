@@ -44,7 +44,7 @@ class Chitu extends Base
         if ($name) {
             $map['level_name'] = array('like', "%$name%");
         }
-        $lists = db('chitu_win_level') ->where($map)-> paginate(config('LIST_ROWS'),false,['query' => request()->param()]);
+        $lists = db('chitu_win_level') ->where($map)->order('sort desc')-> paginate(config('LIST_ROWS'),false,['query' => request()->param()]);
         $this->ifPageNoData($lists);
         $page = $lists -> render();
 
@@ -77,6 +77,36 @@ class Chitu extends Base
             $Data['company'] = $data['company'];
             
             $re1 = db('chitu_user') -> insertGetId($Data);
+            if ($re1) {
+                $this -> success('新增成功');
+            } else {
+                $this -> error('新增失败');
+            }
+        } else {
+            return $this -> fetch();
+        }
+    }    
+
+    /**
+     * 新增抽奖
+     */
+    public function add_win() {
+        if ( request() -> isPost()) {
+            $data = $_POST;
+            //验证
+            $Validate = new ChituValidate();
+            if (!$Validate -> check($data)) {
+                $this -> error($Validate -> getError());
+            }
+            //添加到banner表$Data
+            $Data = array();
+
+            $Data['level_name'] = $data['level_name'];
+            $Data['num'] = $data['num'];
+            $Data['show_time'] = $data['show_time'];
+            $Data['sort'] = $Data['level'] = $data['sort'];
+            
+            $re1 = db('chitu_win_level') -> insertGetId($Data);
             if ($re1) {
                 $this -> success('新增成功');
             } else {
