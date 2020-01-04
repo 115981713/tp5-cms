@@ -30,8 +30,11 @@ class Chitu extends Base
         foreach ($list as $k=>$v) {
             $list[$k]['count'] = db('chitu_win')->where(['level_id'=>$v['id']])->count();
         }
+        $user = [];
+        $user['count'] = db('chitu_user')->where('id','>=',1)->count();
+        $user['win_count'] = db('chitu_user')->where('status',1)->count();
 
-        $this->out(200,$list);
+        $this->out(200,$list,$user);
         
     }    
 
