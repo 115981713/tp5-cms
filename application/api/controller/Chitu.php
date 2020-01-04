@@ -91,11 +91,14 @@ class Chitu extends Base
                 }
 
                 $staff_no = array_slice($list_staff_no,0,$fect_num);
+
+                $staff_no = array_merge($list_staff,$staff_no);
             }
         }
 
         $arr = [];
         $arr['list_staff'] = $list_staff;
+        // 全部员工部分嘉宾
         $arr['staff_no'] = $staff_no;
         
         $this->out(200,$list,$arr);
