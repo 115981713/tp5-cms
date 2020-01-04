@@ -64,11 +64,13 @@ class Chitu extends Base
         $list = db('chitu_user')
                 ->where(['status'=>0])
                 ->select();
+        shuffle($list);
         // 员工
         $list_staff = db('chitu_user')
                 ->where(['type'=>'员工'])
                 ->where(['status'=>0])
                 ->select();
+        shuffle($list_staff);
         // 非员工部分
         $staff_no = [];
         if ($level['is_all'] == 3) {
