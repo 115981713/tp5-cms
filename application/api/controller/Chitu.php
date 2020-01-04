@@ -74,7 +74,7 @@ class Chitu extends Base
         if ($level['is_all'] == 3) {
             $num = $level['num'];
 
-            $pro = 0.5;
+            $pro = 0.3;
             //非员工
             $list_staff_no = db('chitu_user')
                     ->where('type','<>','员工')
