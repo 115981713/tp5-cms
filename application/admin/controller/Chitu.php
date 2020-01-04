@@ -223,6 +223,35 @@ class Chitu extends Base
             $this->assign('info',$info);
             return $this->fetch();
         }
+    }    
+
+    /**
+     * 抽奖首页解释
+     */
+    public function top_title(){
+        $info=db('setting')->where('k','chitu_top_title')->find();
+        if(!$info){
+            $this->error('该记录不存在或已删除！');
+        }
+        if(request()->isPost()){
+            $data=$_POST;
+            $DataArr = array();
+
+            $DataArr['id'] = $data['id'];
+            $DataArr['value'] = $data['value'];
+           
+            $re=db('setting')->update($DataArr);
+            if($re){
+                $this->success('编辑成功');
+            } else {
+                $this->error('编辑失败');
+            }
+        } else {
+            $this->assign('id',$info['id']);
+            
+            $this->assign('info',$info);
+            return $this->fetch();
+        }
     }
 
     /**
