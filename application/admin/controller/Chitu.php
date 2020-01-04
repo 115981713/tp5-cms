@@ -115,6 +115,41 @@ class Chitu extends Base
         } else {
             return $this -> fetch();
         }
+    }    
+
+    /**
+     * 编辑抽奖
+     */
+    public function edit_win($id=0) {
+        $info=db('chitu_win_level')->find($id);
+        if(!$info){
+            $this->error('该记录不存在或已删除！');
+        }
+        if ( request() -> isPost()) {
+            $data = $_POST;
+            //验证
+            $Validate = new ChituValidate();
+            if (!$Validate -> check($data)) {
+                $this -> error($Validate -> getError());
+            }
+            //添加到banner表$Data
+            $Data = array();
+
+            $Data['id'] = $data['id'];
+            $Data['level_name'] = $data['level_name'];
+            $Data['num'] = $data['num'];
+            $Data['show_time'] = $data['show_time'];
+            $Data['sort'] = $Data['level'] = $data['sort'];
+            
+            $re1 = db('chitu_win_level') -> insertGetId($Data);
+            if ($re1) {
+                $this -> success('编辑成功');
+            } else {
+                $this -> error('编辑失败');
+            }
+        } else {
+            return $this -> fetch();
+        }
     }
 
     /**
