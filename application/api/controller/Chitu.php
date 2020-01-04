@@ -34,8 +34,8 @@ class Chitu extends Base
         $user['win_count'] = db('chitu_user')->where('status',1)->count();
         $setting_chitu_title = db('setting')->where('k','chitu_title')->find();
         $setting_chitu_top_title = db('setting')->where('k','chitu_top_title')->find();
-        $user['chitu_title'] = $setting['value'];
-        $user['chitu_top_title'] = $setting['value'];
+        $user['chitu_title'] = $setting_chitu_title['value'];
+        $user['chitu_top_title'] = $setting_chitu_top_title['value'];
 
         $this->out(200,$list,$user);
         
