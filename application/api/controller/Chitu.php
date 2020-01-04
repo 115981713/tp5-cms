@@ -77,7 +77,7 @@ class Chitu extends Base
             $pro = $num/10;
             //非员工
             $list_staff_no = db('chitu_user')
-                    ->where('type','!=','员工')
+                    ->where('type','<>','员工')
                     ->where(['status'=>0])
                     ->select();
 
