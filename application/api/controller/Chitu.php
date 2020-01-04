@@ -129,7 +129,7 @@ class Chitu extends Base
         $level_arr = [];
         $list = db('chitu_win')
             ->alias('w')
-            ->field('w.*,l.level_name,u.name,u.type')
+            ->field('w.*,l.level_name,u.name,u.type,u.company')
             ->join('chitu_win_level l','w.level_id=l.id')
             ->join('chitu_user u','w.user_id=u.id')
             ->order('w.level_sort asc')
