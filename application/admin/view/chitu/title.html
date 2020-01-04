@@ -1,0 +1,43 @@
+{extend name="public/single" /}
+{block name="body"}
+<style>
+    .layui-form-selected dl {
+        z-index: 9999;
+    }
+</style>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">抽奖首页标题</div>
+            <div class="layui-card-body">
+                <form action="{:url('')}" class="layui-form" lay-filter="example" method="post">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">基本信息</li>
+                        </ul>
+                        <div class="layui-tab-content layui-row">
+                            <div class="layui-tab-item layui-show">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">标题：</label>
+                                    <div class="layui-input-block">
+                                        <input class="layui-input" lay-verify="required" name="value"
+                                               type="text" value="{$info['value']}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-layout-admin">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-filter="zz-btn-submit" lay-submit="" type="submit">立即提交
+                            </button>
+                            <button class="layui-btn layui-btn-primary zz-btn-cancel" type="button">取消</button>
+                            <input name="id" type="hidden" value="{$id}">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
