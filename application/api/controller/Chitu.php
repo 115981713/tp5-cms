@@ -23,7 +23,6 @@ class Chitu extends Base
      */
     public function index()
     {
-        
         $list = db('chitu_win_level')
             ->order('sort desc')
             ->select();
@@ -33,6 +32,8 @@ class Chitu extends Base
         $user = [];
         $user['count'] = db('chitu_user')->where('id','>=',1)->count();
         $user['win_count'] = db('chitu_user')->where('status',1)->count();
+        $setting = db('setting')->where('k','chitu_title')->find();
+        $user['chitu_title'] = $setting['value'];
 
         $this->out(200,$list,$user);
         
