@@ -58,17 +58,47 @@ class Chitu extends Base
     // 未中奖人员列表
     public function noWinList()
     {
-
+        $id = $_POST['id'];
+        $level = db('chitu_win_level')->where('id',$id)->find();
+        // 全部
         $list = db('chitu_user')
                 ->where(['status'=>0])
                 ->select();
-                
+        // 员工
         $list_staff = db('chitu_user')
                 ->where(['type'=>'员工'])
                 ->where(['status'=>0])
                 ->select();
+        // 非员工部分
+        if ($level['is_all'] == 3) {
+            $num = $level['num'];
+            $staff_no = [];
+
+            $pro = $num/10;
+            //非员工
+            $list_staff_no = db('chitu_user')
+                    ->where('type','!=','员工')
+                    ->where(['status'=>0])
+                    ->select();
+
+            $staff_no_count = count($list_staff_no);
+            if ($staff_no_count >0) {
+                shuffle($list_staff_no);
+                $fect_num = floor($pro*$staff_no_count);
+
+                if ($fect_num < 1) {
+                    $fect_num = 1;
+                }
+
+                $staff_no = array_slice($list_staff_no,0,$fect_num);
+            }
+        }
+
+        $arr = [];
+        $arr['list_staff'] = $list_staff;
+        $arr['staff_no'] = $staff_no;
         
-        $this->out(200,$list,$list_staff);
+        $this->out(200,$list,$arr);
     }    
 
     // 抽中N等奖人员列表
