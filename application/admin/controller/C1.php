@@ -103,6 +103,7 @@ class C1 extends Base
 
             $Data['level_name'] = $data['level_name'];
             $Data['num'] = $data['num'];
+            $Data['gift'] = $data['gift'];
             $Data['show_time'] = $data['show_time'];
             $Data['sort'] = $data['sort'];
             
@@ -138,6 +139,8 @@ class C1 extends Base
             $Data['id'] = $id;
             $Data['level_name'] = $data['level_name'];
             $Data['num'] = $data['num'];
+            $Data['gift'] = $data['gift'];
+            
             $Data['show_time'] = $data['show_time'];
             $Data['sort'] = $data['sort'];
             
