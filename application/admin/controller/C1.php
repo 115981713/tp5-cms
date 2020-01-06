@@ -104,7 +104,7 @@ class C1 extends Base
             $Data['level_name'] = $data['level_name'];
             $Data['num'] = $data['num'];
             $Data['show_time'] = $data['show_time'];
-            $Data['sort'] = $Data['level'] = $data['sort'];
+            $Data['sort'] = $data['sort'];
             
             $re1 = db('c1_win_level') -> insertGetId($Data);
             if ($re1) {
@@ -139,7 +139,7 @@ class C1 extends Base
             $Data['level_name'] = $data['level_name'];
             $Data['num'] = $data['num'];
             $Data['show_time'] = $data['show_time'];
-            $Data['sort'] = $Data['level'] = $data['sort'];
+            $Data['sort'] = $data['sort'];
             
             $re1 = db('c1_win_level')->update($Data);
             if ($re1) {
