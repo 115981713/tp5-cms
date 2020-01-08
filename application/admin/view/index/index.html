@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="__LIB__/layuiadmin/style/admin.css" media="all">
     <link rel="stylesheet" href="__CSS__/style.css" media="all">
     <script src="__LIB__/layuiadmin/layui/layui.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
 
@@ -162,3 +163,18 @@
 </script>
 </body>
 </html>
+
+<script type="text/javascript">
+    // 权限跳转
+    var web_host = window.location.protocol+"//"+window.location.host;
+    var index_url = '/admin.php/index/main.html';
+
+    var first_url = $('#LAY-system-side-menu li:first').find('a:first').attr('href');
+    if (!first_url) {
+        first_url = $('#LAY-system-side-menu li:first').find('.layui-nav-child dd:first a').attr('href');
+    }
+    if (first_url != index_url) {
+        window.localtion.href = web_host+first_url;
+    }
+    // 权限跳转
+</script>
