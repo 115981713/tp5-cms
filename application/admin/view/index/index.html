@@ -166,15 +166,11 @@
 
 <script type="text/javascript">
     // 权限跳转
-    var web_host = window.location.protocol+"//"+window.location.host;
-    var index_url = '/admin.php/index/main.html';
-
-    var first_url = $('#LAY-system-side-menu li:first').find('a:first').attr('href');
-    if (!first_url) {
-        first_url = $('#LAY-system-side-menu li:first').find('.layui-nav-child dd:first a').attr('href');
-    }
-    if (first_url != index_url) {
-        window.localtion.href = web_host+first_url;
-    }
+    // var web_host = window.location.protocol+"//"+window.location.host;
+    // var index_url = '/admin.php/index/main.html';
+    // var index_url_index = '/admin.php/index/index.html';
+    // var first_url = $('#LAY-system-side-menu li:first').find('a:first').attr('href');
+    // if (!first_url) first_url = $('#LAY-system-side-menu li:first').find('.layui-nav-child dd:first a').attr('href');
+    // if (first_url != index_url) window.location.href = web_host+index_url_index;
     // 权限跳转
 </script>
